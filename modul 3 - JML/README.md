@@ -7,7 +7,7 @@
 | Fase | Eksempel | Hvordan |
 |---|---|---|
 | Joiner | Nora Lie begynner i Salg | Opprettet med *department* = Salg, havner automatisk i DYN-Salg |
-| Mover | Anna Hansen bytter fra HR til Okonomi | Vist i [modul 2](../modul-2-abac/) |
+| Mover | Anna Hansen bytter fra HR til Okonomi | Vist i [modul 2](../modul%202%20-%20ABAC/) |
 | Leaver | Erik Larsen slutter | Kontoen deaktiveres og øktene trekkes tilbake |
 
 ## Joiner: Nora Lie begynner i Salg
