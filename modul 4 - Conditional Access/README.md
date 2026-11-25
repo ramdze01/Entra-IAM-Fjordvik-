@@ -70,9 +70,34 @@ Alle policyene ble først satt til report-only, slik at de bare logget hva de vi
 
 **Funn 2: MFA ble krevd selv med policyene i report-only.** Microsoft krever alltid MFA ved innlogging på administrasjonsportalene (Azure- og Entra-portalen), uavhengig av egne policyer. For å teste egne policyer riktig ble testene gjort mot myaccount.microsoft.com.
 
+## Resultat i Secure Score
+
+| Tidspunkt | Identity Secure Score | Forklaring |
+|---|---|---|
+| Før | 52,50 % | Security defaults ga poeng for MFA og blokkering av eldre autentisering |
+| Mellom | 21,38 % | Security defaults var slått av, men policyene var ikke tatt med i utregningen ennå |
+| Etter | 53,37 % | Conditional Access, nødkonto og blokkert brukersamtykke er tatt med |
+
+![Secure Score mellom endringene](11-secure-score-mellom.png)
+
+![Secure Score etter endringene](12-secure-score-etter.png)
+
+I tillegg til policyene slo jeg av at brukere selv kan gi apper tilgang til data (brukersamtykke). Det beskytter mot consent phishing, der en angriper får tilgang gjennom en falsk app i stedet for å stjele passordet. Anbefalingen gir nå 4 av 4 poeng.
+
+| Anbefaling | Poeng etter |
+|---|---|
+| Do not allow users to grant consent to unreliable applications | 4/4 |
+| Designate more than one global admin | 1/1 |
+| Enable policy to block legacy authentication | 7,11/8 |
+| Require multifactor authentication for administrative roles | 5/10 |
+
+**Funn 3: Nødkontoen koster poeng.** Tenanten har to Global Administrator-kontoer, og nødkontoen er unntatt fra MFA. Secure Score regner derfor halvparten av administratorene som ubeskyttet. Det er et bevisst valg: Uten nødkontoen kan alle administratorer bli låst ute hvis en policy eller MFA feiler.
+
+**Lærdom:** Secure Score er et verktøy, ikke et mål. Poengsummen ble omtrent den samme som med Security defaults, men løsningen gir nå unntak, testing i report-only og blokkering av land, som Security defaults ikke kan.
+
 ## Begrensninger
 
 - CA02 er ikke testet med en ekte eldre klient. Den er kontrollert gjennom konfigurasjonen og report-only.
 - CA03 er testet med What If, ikke med en ekte innlogging fra utlandet.
 - Nødkontoen er bare beskyttet av passordet sitt. Bruk av kontoen bør overvåkes med varsling.
-- Security defaults ga allerede poeng for MFA i Secure Score, så endringen gir mer kontroll, men ikke et stort hopp i poengsummen.
+- "Ensure all users can complete multifactor authentication" gir 5 av 9 poeng, fordi ikke alle testbrukerne har registrert MFA.
