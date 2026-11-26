@@ -102,29 +102,35 @@ Policyene er slått på. De påvirker bare innlogginger der Identity Protection 
 |---|---|---|
 | Før | 52,50 % | Security defaults ga poeng for MFA og blokkering av eldre autentisering |
 | Mellom | 21,38 % | Security defaults var slått av, men policyene var ikke tatt med i utregningen ennå |
-| Etter | 53,37 % | Conditional Access, nødkonto og blokkert brukersamtykke er tatt med |
+| Etter CA01-CA03 | 53,37 % | Conditional Access, nødkonto og blokkert brukersamtykke er tatt med |
+| Etter CA04 og CA05 | **75,42 %** | De risikobaserte policyene er tatt med |
 
 ![Secure Score mellom endringene](11-secure-score-mellom.png)
 
-![Secure Score etter endringene](12-secure-score-etter.png)
+![Secure Score etter CA01-CA03](12-secure-score-etter.png)
+
+![Secure Score etter CA04 og CA05](17-secure-score-etter-risiko.png)
 
 I tillegg til policyene slo jeg av at brukere selv kan gi apper tilgang til data (brukersamtykke). Det beskytter mot consent phishing, der en angriper får tilgang gjennom en falsk app i stedet for å stjele passordet. Anbefalingen gir nå 4 av 4 poeng.
 
-| Anbefaling | Poeng etter |
+| Anbefaling | Poeng til slutt |
 |---|---|
+| Protect all users with a user risk policy | 6,22/7 |
+| Protect all users with a sign-in risk policy | 6,22/7 |
+| Ensure all users can complete multifactor authentication | 7/9 |
 | Do not allow users to grant consent to unreliable applications | 4/4 |
 | Designate more than one global admin | 1/1 |
 | Enable policy to block legacy authentication | 7,11/8 |
 | Require multifactor authentication for administrative roles | 5/10 |
 
-**Funn 3: Nødkontoen koster poeng.** Tenanten har to Global Administrator-kontoer, og nødkontoen er unntatt fra MFA. Secure Score regner derfor halvparten av administratorene som ubeskyttet. Det er et bevisst valg: Uten nødkontoen kan alle administratorer bli låst ute hvis en policy eller MFA feiler.
+**Funn 3: Nødkontoen koster poeng.** Tenanten har to Global Administrator-kontoer, og nødkontoen er unntatt fra alle policyene. Secure Score regner den derfor som ubeskyttet, og ingen av policyene gir fullt antall poeng. Det er et bevisst valg: Uten nødkontoen kan alle administratorer bli låst ute hvis en policy eller MFA feiler.
 
-**Lærdom:** Secure Score er et verktøy, ikke et mål. Poengsummen ble omtrent den samme som med Security defaults, men løsningen gir nå unntak, testing i report-only og blokkering av land, som Security defaults ikke kan.
+**Lærdom:** Secure Score er et verktøy, ikke et mål. Å erstatte Security defaults med CA01-CA03 ga omtrent samme poengsum, men mer kontroll: unntak, testing i report-only og blokkering av land. Det store hoppet kom først med de risikobaserte policyene, som Security defaults ikke har.
 
 ## Begrensninger
 
 - CA02 er ikke testet med en ekte eldre klient. Den er kontrollert gjennom konfigurasjonen og report-only.
 - CA03 er testet med What If, ikke med en ekte innlogging fra utlandet.
-- CA04 og CA05 er testet med What If, ikke med en ekte risikabel innlogging. Secure Score-målingen over er tatt før CA04 og CA05 ble laget.
+- CA04 og CA05 er testet med What If, ikke med en ekte risikabel innlogging.
 - Nødkontoen er bare beskyttet av passordet sitt. Bruk av kontoen bør overvåkes med varsling.
-- "Ensure all users can complete multifactor authentication" gir 5 av 9 poeng, fordi ikke alle testbrukerne har registrert MFA.
+- "Ensure all users can complete multifactor authentication" gir 7 av 9 poeng, fordi ikke alle testbrukerne har registrert MFA.
