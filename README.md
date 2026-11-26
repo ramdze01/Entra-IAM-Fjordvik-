@@ -4,7 +4,7 @@ IAM-lab i Microsoft Entra ID for det fiktive logistikkfirmaet Fjordvik AS. Labbe
 
 | Testbrukere | Grupper | Conditional Access-policyer | PIM-roller | Tilgangspakker | Identity Secure Score |
 |---|---|---|---|---|---|
-| 8 | 5 | 3 | 1 | 1 | 52,50 % til 53,37 % |
+| 8 | 5 | 5 | 1 | 1 | 52,50 % til 75,42 % |
 
 ## Scenario
 
@@ -15,7 +15,7 @@ Fjordvik AS har vokst fort, og IT har gitt tilganger manuelt. En revisjon fant s
 | IT ga tilgang til en og en person | Admin-rolle tildelt en gruppe i stedet for enkeltpersoner | [1 - RBAC](modul%201%20-%20RBAC/) |
 | Ansatte beholdt gammel tilgang når de byttet avdeling | Dynamiske grupper basert på attributtet *department* | [2 - ABAC](modul%202%20-%20ABAC/) |
 | Kontoer virket etter at ansatte hadde sluttet | Rutine for joiner, mover og leaver, og medlemsregler som krever aktiv konto | [3 - JML](modul%203%20-%20JML/) |
-| Innlogging krevde bare passord | Conditional Access: MFA, blokkering av eldre autentisering og innlogging utenfor Norge | [4 - Conditional Access](modul%204%20-%20Conditional%20Access/) |
+| Innlogging krevde bare passord | Conditional Access: MFA, blokkering av eldre autentisering og innlogging utenfor Norge, og risikobaserte krav med Identity Protection | [4 - Conditional Access](modul%204%20-%20Conditional%20Access/) |
 | IT-ansatte var administratorer hele tiden | Just-in-time-tilgang med PIM: aktivering med MFA og begrunnelse, maks en time | [5 - PIM](modul%205%20-%20PIM/) |
 | Ingen kontrollerte hvem som hadde tilgang til hva | Tilgangspakke med godkjenning og utløp, og kvartalsvis tilgangsgjennomgang | [6 - IGA](modul%206%20-%20IGA/) |
 
@@ -29,7 +29,7 @@ flowchart LR
     F[Ansatt] -->|ber om tilgang| G[Tilgangspakke]
     G -->|HR-leder godkjenner| H[GRP-Lonnsrapporter-Les]
     H -->|kvartalsvis gjennomgang| I[Tilgang beholdes eller fjernes]
-    J[Conditional Access<br/>MFA, eldre autentisering, land] -.->|gjelder alle innlogginger| A
+    J[Conditional Access<br/>MFA, eldre autentisering, land, risiko] -.->|gjelder alle innlogginger| A
     J -.-> C
     J -.-> F
 ```
@@ -67,4 +67,4 @@ flowchart LR
 
 ## Verktøy
 
-Microsoft Entra ID P2, Entra admin center, Conditional Access, Privileged Identity Management, Entitlement management (tilgangspakker), Access reviews og My Access.
+Microsoft Entra ID P2, Entra admin center, Conditional Access, Identity Protection, Privileged Identity Management, Entitlement management (tilgangspakker), Access reviews og My Access.
